@@ -46,12 +46,6 @@ An easy option to get bash for windows is using the version that comes with [git
 
 ## List Of Endpoints
 
-	purchase := r.router.Group("/purchases")
-	purchase.POST("/", r.middleware.Auth, r.purchase.CreatePurchase)
-	purchase.GET("/:purchaseId", r.middleware.Auth, r.purchase.GetPurchase)
-	purchase.POST("/cancel/:purchaseId", r.middleware.Auth, r.purchase.CancelPurchase)
-	purchase.POST("/sync", r.middleware.Auth, r.middleware.AdminOnly(r.purchase.SyncPurchase))
-
 Endpoint | Method | Description | Auth | Restrict |
 |---|---|---|---|---|---|
 | [/auth/register] | POST | User registration | No | - | 
