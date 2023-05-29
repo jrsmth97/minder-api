@@ -1,7 +1,7 @@
 
 # Minder API
 
-![Minder](src/server/static/images/minder.jpg "minder")
+![Minder](src/static/images/minder.jpg "minder")
 
 Minder is a mini and simple dating apps where you can match and find your life partner. 
 
