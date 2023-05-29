@@ -92,5 +92,6 @@ type PurchaseRepo interface {
 	GetFailedPurchases() (*[]model.Purchase, error)
 	GetSuccessPurchases() (*[]model.Purchase, error)
 	GetPurchaseById(id string) (*model.Purchase, error)
+	GetPurchaseByIdWithoutInclude(id string) (*model.Purchase, error)
 	UpdatePurchase(id string, m *model.Purchase) error
 }

@@ -2,6 +2,7 @@ package test
 
 import (
 	"encoding/json"
+	"fmt"
 	"minder/src/server/param"
 	"minder/src/server/pkg/httpclient"
 	"minder/src/server/view"
@@ -92,6 +93,29 @@ func TestSyncPurchases(t *testing.T) {
 	expectCode := http.StatusOK
 	actualCode := parseResp.Status
 
-	_END_OF_TESTING = true
+	assert.Equal(t, expectCode, actualCode, err)
+}
+
+func TestDeleteProfile(t *testing.T) {
+	client := httpclient.NewHttpClient(baseUrl)
+
+	header := map[string]string{
+		"Authorization": "Bearer " + _ACCESS_TOKEN,
+	}
+	client.SetHeader(header)
+
+	resp, err := client.Delete("users/me")
+	var parseResp view.Response
+
+	err = json.Unmarshal(resp, &parseResp)
+	expectCode := http.StatusOK
+	actualCode := parseResp.Status
+
+	if actualCode == http.StatusOK {
+		fmt.Println("")
+		fmt.Printf("END OF TESTING USER %v WAS DELETED", USER_EMAIL)
+		fmt.Println("")
+	}
+
 	assert.Equal(t, expectCode, actualCode, err)
 }

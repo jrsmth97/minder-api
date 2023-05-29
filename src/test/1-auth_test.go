@@ -3,11 +3,13 @@ package test
 import (
 	"encoding/json"
 	"fmt"
+	"minder/src/helper"
 	"minder/src/server/param"
 	"minder/src/server/pkg/httpclient"
 	"minder/src/server/view"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -19,6 +21,7 @@ var USER_EMAIL = ""
 var USER_PASS = "user"
 
 var _ACCESS_TOKEN string
+var _locationIds []string
 
 func fetchCountUsers() {
 	client := httpclient.NewHttpClient(baseUrl)
@@ -36,16 +39,46 @@ func fetchCountUsers() {
 
 	if respCode == http.StatusOK {
 		countUsers := parseResp.Data.(float64)
-		USER_NAME = fmt.Sprintf("User %v", countUsers-1)
-		USER_EMAIL = fmt.Sprintf("user%v@mail.com", countUsers-1)
+		USER_NAME = fmt.Sprintf("User %v", countUsers)
+		USER_EMAIL = fmt.Sprintf("user%v@mail.com", countUsers)
+	}
+}
+
+func fetchLocations() {
+	client := httpclient.NewHttpClient(baseUrl)
+
+	header := map[string]string{
+		"Authorization": "Bearer " + _SPECIAL_TOKEN,
+	}
+
+	client.SetHeader(header)
+	resp, _ := client.Get("locations")
+	var parseResp view.Response
+
+	_ = json.Unmarshal(resp, &parseResp)
+	respCode := parseResp.Status
+
+	if respCode == http.StatusOK {
+		rawData, _ := json.Marshal(parseResp.Data)
+		var locations []view.LocationGetAllResponse
+		_ = json.Unmarshal(rawData, &locations)
+
+		for _, item := range locations {
+			locationId := item.Id
+			_locationIds = append(_locationIds, locationId)
+		}
 	}
 }
 
 func TestRegister(t *testing.T) {
 	fetchCountUsers()
+	time.Sleep(time.Second / 2)
+	fetchLocations()
+	time.Sleep(time.Second / 2)
 
 	client := httpclient.NewHttpClient(baseUrl)
 
+	locationId := _locationIds[helper.RandomNumber(len(_locationIds)-1)]
 	payload := param.AuthRegister{
 		Name:       USER_NAME,
 		Gender:     1,
@@ -53,7 +86,7 @@ func TestRegister(t *testing.T) {
 		Password:   USER_PASS,
 		BirthDate:  "1999-09-09",
 		Phone:      "08193938933",
-		LocationId: "120bbdb1-50b8-41f9-868b-4bbf98d583af",
+		LocationId: locationId,
 	}
 
 	resp, err := client.Post("auth/register", payload)

@@ -27,7 +27,13 @@ func SeedUserInterest(db *gorm.DB) {
 		}
 
 		randomNumber := helper.RandomNumber(len(interests) - 1)
-		randomRange := helper.MakeNumberRange(randomNumber, randomNumber+2)
+		maxRandomRange := randomNumber + 2
+		if maxRandomRange > len(interests)-1 {
+			maxRandomRange = len(interests) - 1
+			randomNumber = maxRandomRange - 2
+		}
+
+		randomRange := helper.MakeNumberRange(randomNumber, maxRandomRange)
 		randomRange = helper.ArrayIntShuffle(randomRange)
 
 		for _, index := range randomRange {

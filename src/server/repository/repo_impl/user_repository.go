@@ -121,6 +121,26 @@ func (r *userRepo) Update(id string, user *model.User) error {
 
 func (r *userRepo) Delete(id string) error {
 	err := r.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Exec("DELETE from user_photos WHERE user_id = ?", id).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Exec("DELETE from user_memberships WHERE user_id = ?", id).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Exec("DELETE from user_interests WHERE user_id = ?", id).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Exec("DELETE from user_swipes WHERE user_id = ?", id).Error; err != nil {
+			return err
+		}
+
+		if err := tx.Exec("DELETE from purchases WHERE user_id = ?", id).Error; err != nil {
+			return err
+		}
+
 		if err := tx.Exec("DELETE from users WHERE id = ?", id).Error; err != nil {
 			return err
 		}

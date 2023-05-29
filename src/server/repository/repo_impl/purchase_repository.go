@@ -80,6 +80,16 @@ func (r *purchaseRepo) GetPurchaseById(id string) (*model.Purchase, error) {
 	return &purchase, nil
 }
 
+func (r *purchaseRepo) GetPurchaseByIdWithoutInclude(id string) (*model.Purchase, error) {
+	var purchase model.Purchase
+	err := r.db.Where("id = ?", id).First(&purchase).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return &purchase, nil
+}
+
 func (r *purchaseRepo) GetLastPurchaseByDate(date string) (*model.Purchase, error) {
 	var lastPurchase model.Purchase
 	err := r.db.Where(fmt.Sprintf("invoice_number LIKE 'INV-%sMI%s'", date, "%")).Order("created_at DESC").First(&lastPurchase).Error

@@ -109,13 +109,13 @@ func (p *PurchaseService) CreatePurchase(req *param.CreatePurchase) *view.Respon
 }
 
 func (p *PurchaseService) CancelPurchase(purchaseId string) *view.Response {
-	purchase, errPurchase := p.repo.GetPurchaseById(purchaseId)
+	purchase, errPurchase := p.repo.GetPurchaseByIdWithoutInclude(purchaseId)
 	if errPurchase != nil {
 		return view.ErrBadRequest("purchase doesn't exists")
 	}
 
 	midtransResp, err := helper.CancelTransaction(purchase.InvoiceNumber)
-	if midtransResp.StatusCode != "201" {
+	if midtransResp.StatusCode != "200" {
 		return view.ErrInternalServer(err.Error())
 	}
 

@@ -26,7 +26,7 @@ func main() {
 
 	seed.SeedLocation(db)
 	seed.SeedInterest(db)
-	seed.SeedUser(db, 200)
+	seed.SeedUser(db, 500)
 	seed.SeedUserInterest(db)
 	seed.SeedUserMembership(db)
 	seed.SeedUserPhoto(db)
