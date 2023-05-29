@@ -51,6 +51,7 @@ func main() {
 	mediaService := service.NewMediaServices()
 	userSwipeService := service.NewUserSwipeServices(userSwipeRepo, userRepo, userMembershipRepo, membershipPrivilegeRepo, privilegeRepo)
 	purchaseService := service.NewPurchaseServices(purchaseRepo, membershipRepo, userMembershipRepo, userRepo)
+	privilegeService := service.NewPrivilegeServices(privilegeRepo, membershipPrivilegeRepo)
 
 	authHandler := controller.NewAuthHandler(authService)
 	userHandler := controller.NewUserHandler(userService)
@@ -59,6 +60,7 @@ func main() {
 	mediaHandler := controller.NewMediaHandler(mediaService)
 	swipeHandler := controller.NewSwipeHandler(userSwipeService)
 	purchaseHandler := controller.NewPurchaseHandler(purchaseService)
+	privilegeHandler := controller.NewPrivilegeHandler(privilegeService)
 
 	router := gin.Default()
 	router.Use(gin.Logger())
@@ -70,6 +72,7 @@ func main() {
 		authHandler,
 		userHandler,
 		membershipHandler,
+		privilegeHandler,
 		locationHandler,
 		mediaHandler,
 		swipeHandler,

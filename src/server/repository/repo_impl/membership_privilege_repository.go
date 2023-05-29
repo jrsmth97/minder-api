@@ -1,6 +1,7 @@
 package repo_impl
 
 import (
+	"fmt"
 	"minder/src/server/model"
 	"minder/src/server/repository"
 	"strings"
@@ -52,6 +53,7 @@ func (r *membershipPrivilegeRepo) GetMembershipPrivilegeByMemberId(membershipPri
 func (r *membershipPrivilegeRepo) GetMembershipPrivilegeByBulkMemberId(membershipPrivilegeIds []string) (*[]model.MembershipPrivilege, error) {
 	var membershipPrivileges []model.MembershipPrivilege
 	bulkId := strings.Join(membershipPrivilegeIds[:], ",")
+	fmt.Println("bulkId => " + bulkId)
 	err := r.db.Preload("Membership").Preload("Privilege").Where("membership_privileges.membership_id IN (?)", bulkId).Where("membership_privileges.deleted_at IS NULL").Find(&membershipPrivileges).Error
 	if err != nil {
 		return nil, err
@@ -87,6 +89,16 @@ func (r *membershipPrivilegeRepo) DeleteMembershipPrivilege(id string) error {
 func (r *membershipPrivilegeRepo) DeleteMembershipPrivilegeByMemberId(id string) error {
 	err := r.db.Transaction(func(tx *gorm.DB) error {
 		if err := tx.Exec("DELETE from membership_privileges WHERE membership_id = ?", id).Error; err != nil {
+			return err
+		}
+		return nil
+	})
+	return err
+}
+
+func (r *membershipPrivilegeRepo) DeleteMembershipPrivilegeByPrivilegeId(id string) error {
+	err := r.db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Exec("DELETE from membership_privileges WHERE privilege_id = ?", id).Error; err != nil {
 			return err
 		}
 		return nil

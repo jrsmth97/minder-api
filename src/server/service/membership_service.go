@@ -41,23 +41,9 @@ func (p *MembershipService) GetMemberships() *view.Response {
 		return view.ErrInternalServer(err.Error())
 	}
 
-	var bulkMembershipId []string
-	for _, membership := range *memberships {
-		bulkMembershipId = append(bulkMembershipId, membership.ID.String())
-	}
-
-	membershipPrivileges, err := p.membershipPrivilegeRepo.GetMembershipPrivilegeByBulkMemberId(bulkMembershipId)
+	membershipPrivileges, err := p.membershipPrivilegeRepo.GetMembershipPrivileges()
 	if err != nil {
 		return view.ErrInternalServer(err.Error())
-	}
-
-	var privileges []model.Privilege
-	for _, memberPrivilege := range *membershipPrivileges {
-		privilege, err := p.privilegeRepo.GetPrivilegeById(memberPrivilege.PrivilegeId)
-		if err != nil {
-			return view.ErrInternalServer(err.Error())
-		}
-		privileges = append(privileges, *privilege)
 	}
 
 	if err != nil {
@@ -67,7 +53,7 @@ func (p *MembershipService) GetMemberships() *view.Response {
 		return view.ErrInternalServer(err.Error())
 	}
 
-	return view.SuccessFind(view.NewMembershipGetResponse(memberships, &privileges))
+	return view.SuccessFind(view.NewMembershipGetResponse(memberships, membershipPrivileges))
 }
 
 func (p *MembershipService) GetMembershipById(membershipId string) *view.Response {

@@ -78,6 +78,7 @@ type MembershipPrivilegeRepo interface {
 	UpdateMembershipPrivilege(id string, m *model.MembershipPrivilege) error
 	DeleteMembershipPrivilege(id string) error
 	DeleteMembershipPrivilegeByMemberId(id string) error
+	DeleteMembershipPrivilegeByPrivilegeId(id string) error
 	GetMembershipPrivilegeById(id string) (*model.MembershipPrivilege, error)
 	GetMembershipPrivilegeByMemberId(memberId string) (*[]model.MembershipPrivilege, error)
 	GetMembershipPrivilegeByBulkMemberId(bulkId []string) (*[]model.MembershipPrivilege, error)

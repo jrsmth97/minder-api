@@ -44,37 +44,46 @@ An easy option to get bash for windows is using the version that comes with [git
    make test
    ```
 
+## Postman Documentation
+
+Run via postman [here](https://documenter.getpostman.com/view/24645194/2s93m8yLBM)
+
 ## List Of Endpoints
 
 Endpoint | Method | Description | Auth | Restrict |
 |---|---|---|---|---|
-| [/auth/register] | POST | User registration | No | - | 
-| [/auth/login] | POST | User login | No | - | 
-| [/users/me] | GET | Get current login account profie | Yes | - | 
-| [/users/explore] | GET | Explore list of account | Yes | - | 
-| [/users/me] | PUT | Update current login account profile | Yes | - | 
-| [/users/delete] | DELETE | Delete current login account | Yes | - | 
-| [/users/count] | GET | Count all registered accounts in system (for testing) | Yes | Admin Only | 
-| [/memberships] | GET | Get list of available memberships plan | Yes | - | 
-| [/memberships] | POST | Create a membership plan | Yes | Admin Only | 
-| [/memberships/:membershipId] | GET | Get membership detail | Yes | - | 
-| [/memberships/:membershipId] | PUT | Update membership detail | Yes | Admin Only | 
-| [/memberships/:membershipId] | DELETE | Delete a membership | Yes | Admin Only | 
-| [/locations] | GET | Get list of available locations | Yes | - | 
-| [/locations] | POST | Create a new location | Yes | Admin Only | 
-| [/locations/:locationId] | GET | Get location detail | Yes | - | 
-| [/locations/:locationId] | PUT | Update location detail | Yes | Admin Only | 
-| [/locations/:locationId] | DELETE | Delete a location | Yes | Admin Only | 
-| [/media/] | POST | Upload image | Yes | - | 
-| [/media/:mediaId] | GET | Retrieve image | Yes | - | 
-| [/media/:mediaId] | DELETE | Delete image | Yes | - | 
-| [/swipes/like/:targetId] | POST | Perform right swipe (like) | Yes | - | 
-| [/swipes/pass/:targetId] | POST | Perform left swipe (pass) | Yes | - | 
-| [/swipes/favourite/:targetId] | POST | Perform top swipe (favourite) | Yes | - | 
-| [/purchases] | POST | Create a purchase | Yes | - | 
-| [/purchases/:purchaseId] | GET | Get purchase detail | Yes | - | 
-| [/purchases/cancel/:purchaseId] | POST | Cancel a purchase | Yes | - | 
-| [/purchases/sync] | POST | Sync all pending purchases to payment gateway provider | Yes | Admin Only | 
+| /auth/register | POST | User registration | No | - | 
+| /auth/login | POST | User login | No | - | 
+| /users/me | GET | Get current login account profie | Yes | - | 
+| /users/explore | GET | Explore list of account | Yes | - | 
+| /users/me | PUT | Update current login account profile | Yes | - | 
+| /users/delete | DELETE | Delete current login account | Yes | - | 
+| /users/count | GET | Count all registered accounts in system (for testing) | Yes | Admin Only | 
+| /memberships | GET | Get list of available memberships plan | Yes | - | 
+| /memberships | POST | Create a membership plan | Yes | Admin Only | 
+| /memberships/:membershipId | GET | Get membership detail | Yes | - | 
+| /memberships/:membershipId | PUT | Update membership detail | Yes | Admin Only | 
+| /memberships/:membershipId | DELETE | Delete a membership | Yes | Admin Only | 
+| /privileges | GET | Get list of available privileges | Yes | - | 
+| /privileges | POST | Create a privilege | Yes | Admin Only | 
+| /privileges/:privilegeId | GET | Get privilege detail | Yes | - | 
+| /privileges/:privilegeId | PUT | Update privilege detail | Yes | Admin Only | 
+| /privileges/:privilegeId | DELETE | Delete a privilege | Yes | Admin Only | 
+| /locations | GET | Get list of available locations | Yes | - | 
+| /locations | POST | Create a new location | Yes | Admin Only | 
+| /locations/:locationId | GET | Get location detail | Yes | - | 
+| /locations/:locationId | PUT | Update location detail | Yes | Admin Only | 
+| /locations/:locationId | DELETE | Delete a location | Yes | Admin Only | 
+| /media/ | POST | Upload image | Yes | - | 
+| /media/:mediaId | GET | Retrieve image | Yes | - | 
+| /media/:mediaId | DELETE | Delete image | Yes | - | 
+| /swipes/like/:targetId | POST | Perform right swipe (like) | Yes | - | 
+| /swipes/pass/:targetId | POST | Perform left swipe (pass) | Yes | - | 
+| /swipes/favourite/:targetId | POST | Perform top swipe (favourite) | Yes | - | 
+| /purchases | POST | Create a purchase | Yes | - | 
+| /purchases/:purchaseId | GET | Get purchase detail | Yes | - | 
+| /purchases/cancel/:purchaseId | POST | Cancel a purchase | Yes | - | 
+| /purchases/sync | POST | Sync all pending purchases to payment gateway provider | Yes | Admin Only | 
 
 ## Project Structure
 

@@ -13,6 +13,7 @@ type GinRouter struct {
 	auth       *controller.AuthHandler
 	user       *controller.UserHandler
 	membership *controller.MembershipHandler
+	privilege  *controller.PrivilegeHandler
 	location   *controller.LocationHandler
 	media      *controller.MediaHandler
 	swipe      *controller.SwipeHandler
@@ -25,6 +26,7 @@ func NewRouterGin(
 	auth *controller.AuthHandler,
 	user *controller.UserHandler,
 	membership *controller.MembershipHandler,
+	privilege *controller.PrivilegeHandler,
 	location *controller.LocationHandler,
 	media *controller.MediaHandler,
 	swipe *controller.SwipeHandler,
@@ -36,6 +38,7 @@ func NewRouterGin(
 		auth:       auth,
 		user:       user,
 		membership: membership,
+		privilege:  privilege,
 		location:   location,
 		media:      media,
 		swipe:      swipe,
@@ -59,15 +62,22 @@ func (r *GinRouter) Start(port string) {
 	user.GET("/count", r.middleware.Auth, r.middleware.AdminOnly(r.user.CountUsers))
 
 	membership := r.router.Group("/memberships")
-	membership.GET("/", r.middleware.Auth, r.membership.GetMemberships)
-	membership.POST("/", r.middleware.Auth, r.middleware.AdminOnly(r.membership.CreateMembership))
+	membership.GET("", r.middleware.Auth, r.membership.GetMemberships)
+	membership.POST("", r.middleware.Auth, r.middleware.AdminOnly(r.membership.CreateMembership))
 	membership.GET("/:membershipId", r.middleware.Auth, r.membership.GetMembershipById)
 	membership.PUT("/:membershipId", r.middleware.Auth, r.middleware.AdminOnly(r.membership.UpdateMembership))
 	membership.DELETE("/:membershipId", r.middleware.Auth, r.middleware.AdminOnly(r.membership.DeleteMembership))
 
+	privilege := r.router.Group("/privileges")
+	privilege.GET("", r.middleware.Auth, r.privilege.GetPrivileges)
+	privilege.POST("", r.middleware.Auth, r.middleware.AdminOnly(r.privilege.CreatePrivilege))
+	privilege.GET("/:privilegeId", r.middleware.Auth, r.privilege.GetPrivilegeById)
+	privilege.PUT("/:privilegeId", r.middleware.Auth, r.middleware.AdminOnly(r.privilege.UpdatePrivilege))
+	privilege.DELETE("/:privilegeId", r.middleware.Auth, r.middleware.AdminOnly(r.privilege.DeletePrivilege))
+
 	location := r.router.Group("/locations")
-	location.GET("/", r.middleware.Auth, r.location.GetLocations)
-	location.POST("/", r.location.CreateLocation)
+	location.GET("", r.middleware.Auth, r.location.GetLocations)
+	location.POST("", r.location.CreateLocation)
 	location.GET("/:locationId", r.middleware.Auth, r.location.GetLocationById)
 	location.PUT("/:locationId", r.middleware.Auth, r.middleware.AdminOnly(r.location.UpdateLocation))
 	location.DELETE("/:locationId", r.middleware.Auth, r.middleware.AdminOnly(r.location.DeleteLocation))
@@ -83,7 +93,7 @@ func (r *GinRouter) Start(port string) {
 	swipe.POST("/favourite/:targetId", r.middleware.Auth, r.swipe.Favourite)
 
 	purchase := r.router.Group("/purchases")
-	purchase.POST("/", r.middleware.Auth, r.purchase.CreatePurchase)
+	purchase.POST("", r.middleware.Auth, r.purchase.CreatePurchase)
 	purchase.GET("/:purchaseId", r.middleware.Auth, r.purchase.GetPurchase)
 	purchase.POST("/cancel/:purchaseId", r.middleware.Auth, r.purchase.CancelPurchase)
 	purchase.POST("/sync", r.middleware.Auth, r.middleware.AdminOnly(r.purchase.SyncPurchase))

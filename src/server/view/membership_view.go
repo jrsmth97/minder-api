@@ -43,16 +43,16 @@ type MembershipGetResponse struct {
 	MembershipCreateResponse
 }
 
-func NewMembershipGetResponse(memberships *[]model.Membership, privileges *[]model.Privilege) *[]MembershipGetResponse {
+func NewMembershipGetResponse(memberships *[]model.Membership, memberPrivileges *[]model.MembershipPrivilege) *[]MembershipGetResponse {
 	var membershipsResponse []MembershipGetResponse
 
 	for _, membership := range *memberships {
-		// var privileges []model.Privilege
-		// for _, memberPrivilege := range *memberPrivileges {
-		// 	if memberPrivilege.MembershipId != membership.ID.String() {
-		// 		privileges = append(privileges, memberPrivilege.Privilege)
-		// 	}
-		// }
+		var privileges []model.Privilege
+		for _, memberPrivilege := range *memberPrivileges {
+			if memberPrivilege.MembershipId == membership.ID.String() {
+				privileges = append(privileges, memberPrivilege.Privilege)
+			}
+		}
 
 		response := &MembershipGetResponse{}
 		response.Id = membership.ID.String()
@@ -60,7 +60,7 @@ func NewMembershipGetResponse(memberships *[]model.Membership, privileges *[]mod
 		response.Description = membership.Description
 		response.Price = membership.Price
 		response.DurationInMonth = membership.DurationInMonth
-		response.Privileges = *privileges
+		response.Privileges = privileges
 
 		membershipsResponse = append(membershipsResponse, *response)
 	}
