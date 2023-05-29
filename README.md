@@ -47,7 +47,7 @@ An easy option to get bash for windows is using the version that comes with [git
 ## List Of Endpoints
 
 Endpoint | Method | Description | Auth | Restrict |
-|---|---|---|---|---|---|
+|---|---|---|---|---|
 | [/auth/register] | POST | User registration | No | - | 
 | [/auth/login] | POST | User login | No | - | 
 | [/users/me] | GET | Get current login account profie | Yes | - | 
